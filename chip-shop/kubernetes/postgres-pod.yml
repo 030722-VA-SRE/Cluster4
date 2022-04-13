@@ -12,7 +12,7 @@ spec:
       - containerPort: 5432
     env:
       - name: POSTGRES_PASSWORD
-        value: pass
+        value: pa55w0rd
       - name: PGDATA
         value: /var/lib/postgresql/data/pgdata
 

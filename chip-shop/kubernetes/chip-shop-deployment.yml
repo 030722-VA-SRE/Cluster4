@@ -19,8 +19,8 @@ spec:
         - containerPort: 8080
         env:
           - name: DB_URL
-            value: jdbc:postgresql://postgres-service:5432/postgres
+            value: jdbc:postgresql://database-1.cf6kctbmeuxl.us-east-2.rds.amazonaws.com:5432/postgres
           - name: DB_USER
             value: postgres
-          - name: DB_PASSWORD
-            value: pass
+          - name: DB_PASS
+            value: pa55w0rd
