@@ -1,9 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: chip-shop-delpoyment
+  name: chip-shop-deployment
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: chip-shop-app
@@ -14,13 +13,10 @@ spec:
     spec:
       containers:
       - name: chip-shop-container
-        image: miggarcia338/chip-shop:1
+        image: miggarcia338/chip-shop:2
+        # resources:
+        #   limits:
+        #     memory: "128Mi"
+        #     cpu: "500m"
         ports:
         - containerPort: 8080
-        env:
-          - name: DB_URL
-            value: jdbc:postgresql://database-1.cf6kctbmeuxl.us-east-2.rds.amazonaws.com:5432/postgres
-          - name: DB_USER
-            value: postgres
-          - name: DB_PASS
-            value: pa55w0rd

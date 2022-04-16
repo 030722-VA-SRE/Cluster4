@@ -9,20 +9,19 @@ metadata:
 
 spec:
   rules:
-   - http:
-      paths:
-      - pathType: Prefix
-        path: "/cs/(.*)"
-        backend:
-          service:
-            name: chip-shop-service
-            port: 
-              number: 8080
-      - pathType: Prefix
-        path: "/grafana/?(.*)"
-        backend:
-          service:
-            name: prom-grafana
-            port:
-              number: 80
-      
+    - http:
+        paths:
+        - pathType: Prefix
+          path: "/cs/(.*)"
+          backend:
+            service:
+              name: chip-shop-service
+              port: 
+                number: 8080
+        - pathType: Prefix
+          path: "/grafana/?(.*)"
+          backend:
+            service:
+              name: prom-grafana
+              port:
+                number: 80
