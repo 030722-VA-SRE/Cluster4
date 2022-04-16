@@ -3,9 +3,6 @@ The Fourth Cluster: Anggel, Miguel, Aisha
 
 How to use Chip-Shop API
 
-* Admin account
-    * username: admin
-    * password: admin
 * Post: auth/login
     * for user login
 * Post: auth/register
