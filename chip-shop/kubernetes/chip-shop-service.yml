@@ -2,9 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: chip-shop-service
+  namespace: cluster4
+  labels:
+    app: chip-shop-app
 spec:
   selector:
     app: chip-shop-app
   ports:
   - port: 8080
     targetPort: 8080
+    protocol: TCP
+    name: http

@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: chip-shop-svc-monitor
+  namespace: cluster4
+  labels:
+    app: chip-shop-app
+    release: prom
+spec:
+  endpoints:
+    - path: /actuator/prometheus
+      interval: 15s
+      port: http
+  namespaceSelector:
+    matchNames:
+    - cluster4
+  selector:
+    matchLabels:
+      app: chip-shop-app
