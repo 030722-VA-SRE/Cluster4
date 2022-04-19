@@ -1,15 +1,12 @@
-server:
-  port: 8080
-
 spring:
   datasource:
-    DB_URL: jdbc:postgresql://database-1.cf6kctbmeuxl.us-east-2.rds.amazonaws.com:5432/postgres
-    DB_USER: postgres
-    DB_PASS: pa55w0rd
+    url: jdbc:postgresql://database-1.cf6kctbmeuxl.us-east-2.rds.amazonaws.com:5432/postgres #${DB_URL}
+    username: postgres #${DB_USER}
+    password: pa55w0rd #${DB_PASS}
     
   jpa:
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate

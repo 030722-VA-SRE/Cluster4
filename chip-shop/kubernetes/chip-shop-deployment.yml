@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: chip-shop-delpoyment
+  name: chip-shop-deployment
 spec:
   replicas: 2
   selector:
@@ -14,13 +14,29 @@ spec:
     spec:
       containers:
       - name: chip-shop-container
-        image: miggarcia338/chip-shop:1
+        image: miggarcia338/chip-shop:2
+        # resources:
+        #   limits:
+        #     memory: "128Mi"
+        #     cpu: "500m"
         ports:
         - containerPort: 8080
-        env:
-          - name: DB_URL
-            value: jdbc:postgresql://database-1.cf6kctbmeuxl.us-east-2.rds.amazonaws.com:5432/postgres
-          - name: DB_USER
-            value: postgres
-          - name: DB_PASS
-            value: pa55w0rd
+        volumeMounts:
+          - mountPath: /logs
+            name: logs
+            
+      - name: promtail-container
+        image: grafana/promtail
+        args:
+        - -config.file=/etc/promtail/promtail.yml
+        volumeMounts:
+          - name: logs
+            mountPath: /logs
+          - name: promtail-config
+            mountPath: /etc/promtail
+      volumes:
+        - name: logs
+          emptyDir: {}
+        - name: promtail-config
+          configMap:
+            name: promtail-config
