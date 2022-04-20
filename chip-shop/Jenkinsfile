@@ -12,7 +12,6 @@ pipeline {
                     sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=030722-VA-SRE_Cluster4'
                 }
             }
-        }
         stage('Maven clean package'){
             steps{
                 sh 'mvn clean package -Dmaven.test.skip'
@@ -64,6 +63,7 @@ pipeline {
                         sh './kubectl get pods -n chip-shop'
                         sh "echo $registry:$currentBuild.number"
                         sh "./kubectl set image -n chip-shop deployment/demo-deployment demo-container=$registry:$currentBuild.number"
+                    }
                 }
             }
         }
