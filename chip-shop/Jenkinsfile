@@ -3,11 +3,11 @@ pipeline{
         label "node"
     }
     stages{
-        stage("Code quality analysis"){
-            steps{
-                withSonarQubeEnv()
-            }
-        }
+        // stage("Code quality analysis"){
+        //     steps{
+        //         withSonarQubeEnv()
+        //     }
+        // }
         stage("Maven clean package"){
             steps{
                 sh 'mvn clean package'
