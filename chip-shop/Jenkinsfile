@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Code quality analysis'){
             steps{
-                withSonarQubeEnv(credentialsId: 'sonar-token', installationName: 'sonar')}{
+                withSonarQubeEnv(credentialsId: 'sonar-token', installationName: 'sonar-qube')}{
                     sh 'mvn -f app/pom.xml verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=030722-VA-SRE_Cluster4'
                 }
             }
@@ -17,21 +17,20 @@ pipeline {
                 sh 'mvn clean package -Dmaven.test.skip'
             }
         }
-        stage('Docker build') {
+        stage('Build Docker image') {
             steps {
                 script {
-                    docker.withRegistry('', 'docker-jenkins-token') {
                         dockerImage = docker.build "$registry"
-                        dockerImage.push("$currentBuild.number")
-                        dockerImage.push("latest")
                     }
-                    
-                    container('kubectl') {
-                      withKubeConfig([credentialsId: 'kubeconfig']) {
-                          sh "aws eks update-kubeconfig --name kevin-sre-1285 --region us-east-1 "
-                          sh 'kubectl get pods'
-                          sh "kubectl patch deployment deployment-name --set-image=$IMAGE_NAME:$IMAGE_TAG"
-                      }
+            }
+        }
+        stage("Pushing image to DockerHub") {
+            steps {
+                echo '========> Pushing image to DockerHub...'
+                script {
+                    docker.withRegistry('', dockerHubCreds) {
+                        dockerImage.push("$versionNumber.$currentBuild.number")
+                        dockerImage.push("latest")
                     }
                 }
             }
