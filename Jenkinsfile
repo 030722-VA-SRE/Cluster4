@@ -34,8 +34,8 @@ pipeline {
         stage("Pushing image to DockerHub") {
             steps {
                 script {
-                    docker.withRegistry('', dockerHubCreds) {
-                        dockerImage.push("$versionNumber.$currentBuild.number")
+                    docker.withRegistry('', dockerHubCreds){
+                        dockerImage.push("$currentBuild.number")
                         dockerImage.push("latest")
                     }
                 }
