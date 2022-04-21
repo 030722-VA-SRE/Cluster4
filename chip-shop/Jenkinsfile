@@ -13,14 +13,10 @@ pipeline {
         stage('Code quality analysis'){
             steps{
                 withSonarQubeEnv(credentialsId: 'sonar-token', installationName: 'sonar-qube')}{
-                    sh 'mvn -f app/pom.xml verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=030722-VA-SRE_Cluster4'
+                    sh 'mvn -f pom.xml verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=030722-VA-SRE_Cluster4'
                 }
             }
-        stage('Maven clean package'){
-            steps{
-                sh 'mvn clean package -Dmaven.test.skip'
-            }
-        }
+
         stage('Build Docker image') {
             steps {
                 script {
@@ -30,7 +26,6 @@ pipeline {
         }
         stage("Pushing image to DockerHub") {
             steps {
-                echo '========> Pushing image to DockerHub...'
                 script {
                     docker.withRegistry('', dockerHubCreds) {
                         dockerImage.push("$versionNumber.$currentBuild.number")
