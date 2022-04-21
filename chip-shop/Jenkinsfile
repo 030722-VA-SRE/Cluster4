@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Code quality analysis'){
             steps{
-                withSonarQubeEnv(credentialsId: 'SONAR-TOKEN', installationName: 'sonar')}{
+                withSonarQubeEnv(credentialsId: 'SONAR_TOKEN', installationName: 'sonar')}{
                     sh 'mvn -f chip-shop/pom.xml verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=030722-VA-SRE_Cluster4'
                 }
             }
