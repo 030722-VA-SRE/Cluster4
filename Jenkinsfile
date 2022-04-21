@@ -12,15 +12,15 @@ pipeline {
     stages {
         stage('Code quality analysis'){
             steps{
-                withSonarQubeEnv(credentialsId: 'SONAR_TOKEN', installationName: 'sonar')}{
-                    sh 'mvn -f chip-shop/ verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=030722-VA-SRE_Cluster4'
+                withSonarQubeEnv(credentialsId: 'sonar-token', installationName: 'sonar'){
+                    sh 'mvn chip-shop/ verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=030722-VA-SRE_Cluster4'
                 }
             }
         }
-        
+
         stage("Maven clean package"){
             steps{
-                sh 'mvn clean package -Dmaven.test.skip'
+                sh 'mvn -f chip-shop/pom.xml clean package -Dmaven.test.skip'
             }
         }
 
@@ -34,8 +34,8 @@ pipeline {
         stage("Pushing image to DockerHub") {
             steps {
                 script {
-                    docker.withRegistry('', dockerHubCreds) {
-                        dockerImage.push("$versionNumber.$currentBuild.number")
+                    docker.withRegistry('', dockerHubCreds){
+                        dockerImage.push("$currentBuild.number")
                         dockerImage.push("latest")
                     }
                 }
@@ -61,13 +61,13 @@ pipeline {
         stage("Deploy to production"){
             steps{
                 script{
-                    withAWS(credentials: 'SRE aws credentials', region: 'us-east-1'){
+                    withAWS(credentials: 'aws-creds', region: 'us-east-1'){
                         sh 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"'
                         sh 'chmod u+x ./kubectl'
                         sh 'aws eks update-kubeconfig --name kevin-sre-1285'
-                        sh './kubectl get pods -n chip-shop'
+                        sh './kubectl get pods -n cluster4'
                         sh "echo $registry:$currentBuild.number"
-                        sh "./kubectl set image -n chip-shop deployment/demo-deployment demo-container=$registry:$currentBuild.number"
+                        sh "./kubectl set image -n cluster4 deployment.apps/chip-shop-deployment chip-shop-container=$registry:$currentBuild.number"
                     }
                 }
             }
