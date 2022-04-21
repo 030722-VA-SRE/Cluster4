@@ -61,13 +61,13 @@ pipeline {
         stage("Deploy to production"){
             steps{
                 script{
-                    withAWS(credentials: 'SRE aws credentials', region: 'us-east-1'){
+                    withAWS(credentials: 'aws creds', region: 'us-east-1'){
                         sh 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"'
                         sh 'chmod u+x ./kubectl'
                         sh 'aws eks update-kubeconfig --name kevin-sre-1285'
-                        sh './kubectl get pods -n chip-shop'
+                        sh './kubectl get pods -n cluster4'
                         sh "echo $registry:$currentBuild.number"
-                        sh "./kubectl set image -n chip-shop deployment/demo-deployment demo-container=$registry:$currentBuild.number"
+                        sh "./kubectl set image -n cluster4 deployment.apps/chip-shop-deployment chip-shop-container=$registry:$currentBuild.number"
                     }
                 }
             }
