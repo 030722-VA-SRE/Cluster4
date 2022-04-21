@@ -16,7 +16,8 @@ pipeline {
                     sh 'mvn -f chip-shop/ verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=030722-VA-SRE_Cluster4'
                 }
             }
-
+        }
+        
         stage("Maven clean package"){
             steps{
                 sh 'mvn clean package -Dmaven.test.skip'

@@ -25,6 +25,7 @@ import com.revature.services.BrandService;
 import com.revature.services.FlavorService;
 
 import io.jsonwebtoken.Claims;
+import io.micrometer.core.annotation.Timed;
 
 
 //HTTp requests are handled by a controller
@@ -53,6 +54,11 @@ public class BrandController {
 	 */
 	
 	@GetMapping
+	@Timed(
+			value = "getAllBrands.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<List<Brand>> getAllBrands(@RequestHeader(value = "Authorization", required = false) String token){
 		
 		as.verify(token, 0);
@@ -60,6 +66,11 @@ public class BrandController {
 	}//end 
 	
 	@PostMapping
+	@Timed(
+			value = "createBrand.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<String> createBrand(@RequestBody Brand brand, @RequestHeader(value = "Authorization", required = false) String token) {
 		
 		as.verify(token, -1);
@@ -70,6 +81,11 @@ public class BrandController {
 	}
 	
 	@GetMapping("/{id}")
+	@Timed(
+			value = "getBrandById.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<Brand> getBrandById (@PathVariable("id") int id, @RequestHeader(value = "Authorization", required = false) String token){
 		
 		as.verify(token, 0);
@@ -77,6 +93,11 @@ public class BrandController {
 	}
 	
 	@PutMapping("/{id}")
+	@Timed(
+			value = "updateBrand.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<Brand> updateBrand(@RequestBody Brand brand, @PathVariable("id") int id, @RequestHeader(value = "Authorization", required = false) String token) {
 		
 		as.verify(token, -1);
@@ -87,6 +108,11 @@ public class BrandController {
 	}
 	
 	@DeleteMapping("/{id}")
+	@Timed(
+			value = "getBrandById.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<String> deleteById(@PathVariable("id") int id, @RequestHeader(value = "Authorization", required = false) String token) {
 		
 		as.verify(token, -1);
