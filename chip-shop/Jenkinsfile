@@ -16,13 +16,12 @@ pipeline {
                     sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=030722-VA-SRE_Cluster4'
                 }
             }
-            
+
         stage("Maven clean package"){
             steps{
                 sh 'mvn clean package -Dmaven.test.skip'
             }
         }
-        sta
 
         stage('Build Docker image') {
             steps {
