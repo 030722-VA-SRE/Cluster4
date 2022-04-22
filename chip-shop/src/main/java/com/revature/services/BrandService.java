@@ -14,6 +14,9 @@ import com.revature.exceptions.BrandNotFoundException;
 import com.revature.models.Brand;
 import com.revature.repositories.BrandRepository;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
+
 //@Service is used with classes that provide some business functionalities
 //It is used to mark the class as a service provider
 @Service
@@ -21,6 +24,7 @@ public class BrandService {
 	
 	private BrandRepository br;
 	private static Logger LOG =LoggerFactory.getLogger(BrandService.class);
+	private static MeterRegistry registry = new SimpleMeterRegistry();
 	
 	/*@Autowired annotation indicates that the constructor should be autowired when creating the bean
 	 * It is used for dependency injection - providing the objects that an object needs
@@ -71,6 +75,7 @@ public class BrandService {
 		
 		Brand brand = br.findById(id).orElseThrow(() -> new BrandNotFoundException("No brand of id: " + id));
 		
+		registry.counter("brandById.call", String.valueOf(id)).increment();;
 		LOG.debug("Done retrieving brand by id");
 		LOG.info("Looked up " + brand.getName());
 		return brand;
