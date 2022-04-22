@@ -74,7 +74,7 @@ public class BrandService {
 		LOG.debug("Attempting to retreive brand by id");
 		
 		Brand brand = br.findById(id).orElseThrow(() -> new BrandNotFoundException("No brand of id: " + id));
-		registry.counter("brandById.call", "brands", String.valueOf(id)).increment();
+		registry.counter("brandById.call", "brands", String.valueOf(id));
 		//registry.counter("brandById.call", String.valueOf(id)).increment();
 		LOG.debug("Done retrieving brand by id");
 		LOG.info("Looked up " + brand.getName());
