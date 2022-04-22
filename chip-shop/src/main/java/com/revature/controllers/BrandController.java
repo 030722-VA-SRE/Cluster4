@@ -25,6 +25,7 @@ import com.revature.services.BrandService;
 import com.revature.services.FlavorService;
 
 import io.jsonwebtoken.Claims;
+import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.annotation.Timed;
 
 //HTTp requests are handled by a controller
@@ -85,6 +86,7 @@ public class BrandController {
 			histogram = true,
 			percentiles = {0.95, 0.99}
 	)
+	@Counted(value = "getBrandById.call")
 	public ResponseEntity<Brand> getBrandById (@PathVariable("id") int id, @RequestHeader(value = "Authorization", required = false) String token){
 		
 		as.verify(token, 0);
@@ -108,7 +110,7 @@ public class BrandController {
 	
 	@DeleteMapping("/{id}")
 	@Timed(
-			value = "getBrandById.request",
+			value = "deleteById.request",
 			histogram = true,
 			percentiles = {0.95, 0.99}
 	)
