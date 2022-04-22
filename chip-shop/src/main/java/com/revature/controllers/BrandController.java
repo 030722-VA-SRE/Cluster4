@@ -39,7 +39,7 @@ public class BrandController {
 	private FlavorService fs;
 	private AuthService as;
 	private static Logger LOG =LoggerFactory.getLogger(UserController.class);
-	
+
 	@Autowired
 	public BrandController(BrandService bs, FlavorService fs, AuthService as) {
 		super();
