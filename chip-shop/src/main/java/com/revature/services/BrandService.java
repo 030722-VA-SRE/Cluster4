@@ -25,8 +25,6 @@ public class BrandService {
 	
 	private BrandRepository br;
 	private static Logger LOG =LoggerFactory.getLogger(BrandService.class);
-	private static MeterRegistry registry = new SimpleMeterRegistry();
-	private static Counter counter = registry.counter("brand.visitors", "brand", "id");
 	
 	/*@Autowired annotation indicates that the constructor should be autowired when creating the bean
 	 * It is used for dependency injection - providing the objects that an object needs
@@ -76,8 +74,6 @@ public class BrandService {
 		LOG.debug("Attempting to retreive brand by id");
 		
 		Brand brand = br.findById(id).orElseThrow(() -> new BrandNotFoundException("No brand of id: " + id));
-		counter.increment();
-		//registry.counter("brandById.call", String.valueOf(id)).increment();
 		LOG.debug("Done retrieving brand by id");
 		LOG.info("Looked up " + brand.getName());
 		return brand;
