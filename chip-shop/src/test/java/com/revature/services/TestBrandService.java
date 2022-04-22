@@ -80,7 +80,7 @@ class TestBrandService {
 		
 	}//end
 	
-/*	
+	
 	@Test
 	void getBrandByIdTest(){
 		Brand newBrand = new Brand(1, "Doritos");
@@ -90,7 +90,7 @@ class TestBrandService {
 		assertEquals(bs.getBrandById(1), newBrand);
 		
 	}//end
-	*/
+
 	@Test
 	void getBrandByIdFailTest(){
 		
