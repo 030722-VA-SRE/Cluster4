@@ -31,6 +31,11 @@ public class AuthController {
 	}//end
 
 	@PostMapping("/login")
+	@Timed(
+			value = "login.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<String> login(@RequestParam("username") String username, @RequestParam("password") String password){
 			
 		UserDTO principle = as.login(username, password);
@@ -53,6 +58,11 @@ public class AuthController {
 	}//end
 	
 	@PostMapping("/register")
+	@Timed(
+			value = "register.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<String> register(@RequestBody User user){
 		
 		UserDTO principle = as.register(user);

@@ -40,6 +40,11 @@ public class UserController {
 	}//end
 	
 	@GetMapping
+	@Timed(
+			value = "getAllUsers.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<List<UserDTO>> getAllUsers(@RequestHeader(value = "Authorization", required = false) String token){
 
 		as.verify(token, -1);
@@ -49,6 +54,11 @@ public class UserController {
 	}//end 
 	
 	@PostMapping
+	@Timed(
+			value = "createUser.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<String> createUser(@RequestBody User user, @RequestHeader(value = "Authorization", required = false) String token) {
 		
 		as.verify(token, -1);
@@ -59,6 +69,11 @@ public class UserController {
 	}
 	
 	@GetMapping("/{id}")
+	@Timed(
+			value = "getUserById.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<UserDTO> getUserById(@PathVariable("id") Integer id, @RequestHeader(value = "Authorization", required = false) String token){
 
 		as.verify(token, id);
@@ -68,6 +83,11 @@ public class UserController {
 	}//end 
 	
 	@PutMapping("/{id}")
+	@Timed(
+			value = "updateUser.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("id") Integer id, @RequestHeader(value = "Authorization", required = false) String token){
 				
 		
@@ -80,6 +100,11 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/{id}")
+	@Timed(
+			value = "deleteById.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<String> deleteById(@PathVariable("id") Integer id, @RequestHeader(value = "Authorization", required = false) String token){
 		
 		as.verify(token, -1);

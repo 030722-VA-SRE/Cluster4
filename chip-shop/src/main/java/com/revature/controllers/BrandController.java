@@ -123,6 +123,11 @@ public class BrandController {
 	}
 	
 	@GetMapping("/{id}/flavors")
+	@Timed(
+			value = "findFlavorsByBrand.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<List<Flavor>> findFlavorsByBrand(@PathVariable("id") Integer id, @RequestParam(required = false) String flavor, @RequestParam(required = false) Integer ounces, 
 			@RequestParam(required = false) Float price, @RequestHeader(value = "Authorization", required = false) String token){
 		
@@ -132,6 +137,11 @@ public class BrandController {
 	
 	
 	@PostMapping("/{id}/flavors")
+	@Timed(
+			value = "createFlavorWithBrandId.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<String> createFlavorWithBrandId(@RequestBody Flavor flavor, @PathVariable("id") int id, @RequestHeader(value = "Authorization", required = false) String token) {
 		
 		as.verify(token, -1);
@@ -143,6 +153,11 @@ public class BrandController {
 	}//end
 	
 	@GetMapping("/{brand}/flavors/{id}")
+	@Timed(
+			value = "getFlavorById.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<Flavor> getFlavorById(@PathVariable("id") int id, @RequestHeader(value = "Authorization", required = false) String token){
 		
 		as.verify(token, 0);
@@ -150,6 +165,11 @@ public class BrandController {
 	}//end
 	
 	@PutMapping("/{brand}/flavors/{id}")
+	@Timed(
+			value = "updateFlavor.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<Flavor> updateFlavor(@RequestBody Flavor flavor, @PathVariable("id") int id, @RequestHeader(value = "Authorization", required = false) String token){
 		
 		as.verify(token, -1);
@@ -160,6 +180,11 @@ public class BrandController {
 	}//end
 	
 	@DeleteMapping("/{brand}/flavors/{id}")
+	@Timed(
+			value = "deleteFlavor.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<String> deleteFlavor(@PathVariable("id") int id, @RequestHeader(value = "Authorization", required = false) String token){
 		
 		as.verify(token, -1);
