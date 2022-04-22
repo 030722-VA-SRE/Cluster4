@@ -27,7 +27,6 @@ import com.revature.services.FlavorService;
 import io.jsonwebtoken.Claims;
 import io.micrometer.core.annotation.Timed;
 
-
 //HTTp requests are handled by a controller
 //@RestController allows to handle all REST APis such as GET, POST, Delete, PUT requests
 @RestController
@@ -39,7 +38,7 @@ public class BrandController {
 	private FlavorService fs;
 	private AuthService as;
 	private static Logger LOG =LoggerFactory.getLogger(UserController.class);
-
+	
 	@Autowired
 	public BrandController(BrandService bs, FlavorService fs, AuthService as) {
 		super();

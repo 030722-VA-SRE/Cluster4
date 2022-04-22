@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chip-shop-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: chip-shop-app
+  template:
+    metadata:
+      labels:
+        app: chip-shop-app
+    spec:
+      containers:
+      - name: chip-shop-container
+        image: miggarcia338/chip-shop:2
+        # resources:
+        #   limits:
+        #     memory: "128Mi"
+        #     cpu: "500m"
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+          - mountPath: /logs
+            name: logs
+            
+      - name: promtail-container
+        image: grafana/promtail
+        args:
+        - -config.file=/etc/promtail/promtail.yml
+        volumeMounts:
+          - name: logs
+            mountPath: /logs
+          - name: promtail-config
+            mountPath: /etc/promtail
+      volumes:
+        - name: logs
+          emptyDir: {}
+        - name: promtail-config
+          configMap:
+            name: promtail-config

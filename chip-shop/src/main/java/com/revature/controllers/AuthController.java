@@ -18,6 +18,8 @@ import com.revature.models.User;
 import com.revature.services.AuthService;
 import com.revature.services.JWTUtil;
 
+import io.micrometer.core.annotation.Timed;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {

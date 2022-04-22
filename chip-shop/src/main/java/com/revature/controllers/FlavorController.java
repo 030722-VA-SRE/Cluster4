@@ -23,6 +23,7 @@ import com.revature.services.AuthService;
 import com.revature.services.FlavorService;
 
 import io.jsonwebtoken.Claims;
+import io.micrometer.core.annotation.Timed;
 
 @RestController
 @RequestMapping("/flavors")
