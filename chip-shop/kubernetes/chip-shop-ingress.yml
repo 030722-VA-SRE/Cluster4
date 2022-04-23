@@ -18,10 +18,10 @@ spec:
               name: chip-shop-service
               port: 
                 number: 8080
-        - pathType: Prefix
-          path: "/grafana/?(.*)"
-          backend:
-            service:
-              name: prom-grafana
-              port:
-                number: 80
+        # - pathType: Prefix
+        #   path: "/grafana/?(.*)"
+        #   backend:
+        #     service:
+        #       name: prom-grafana
+        #       port:
+        #         number: 80
