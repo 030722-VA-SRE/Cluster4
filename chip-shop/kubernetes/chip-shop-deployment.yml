@@ -13,11 +13,12 @@ spec:
     spec:
       containers:
       - name: chip-shop-container
-        image: miggarcia338/chip-shop:2
-        # resources:
-        #    limits:
-        #      memory: "128Mi"
-        #      cpu: "500m"
+        image: miggarcia338/chip-shop:latest
+        resources:
+          requests:
+            cpu: "50m"
+          limits:
+            cpu: "100m"
         ports:
         - containerPort: 8080
         volumeMounts:
