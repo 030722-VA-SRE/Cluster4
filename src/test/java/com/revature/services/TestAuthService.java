@@ -67,7 +67,23 @@ class TestAuthService {
 		assertEquals(jwt.extractUsername(token), user.getUsername());
 		
 	}///end
+	
+	@Test
+	void registerUser(){
+		User user = new User(1, "Miguel", "Garcia", Role.USER);
 		
-
+		Mockito.when(ur.findUserByUsername("Miguel")).thenReturn(null);
+		Mockito.when(ur.save(user)).thenReturn(user);
+		
+		assertEquals(as.register(user), new UserDTO(user));
+	}
+	
+	@Test
+	void registerUserFail(){
+		User user = new User(1, "Miguel", "Garcia", Role.USER);
+		Mockito.when(ur.findUserByUsername(user.getUsername())).thenReturn(user);
+		assertThrows(AuthenticationException.class, () -> as.register(user));
+	}
+	
 	
 }//end

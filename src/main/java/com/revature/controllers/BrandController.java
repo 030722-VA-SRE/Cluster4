@@ -25,7 +25,8 @@ import com.revature.services.BrandService;
 import com.revature.services.FlavorService;
 
 import io.jsonwebtoken.Claims;
-
+import io.micrometer.core.annotation.Counted;
+import io.micrometer.core.annotation.Timed;
 
 //HTTp requests are handled by a controller
 //@RestController allows to handle all REST APis such as GET, POST, Delete, PUT requests
@@ -53,6 +54,11 @@ public class BrandController {
 	 */
 	
 	@GetMapping
+	@Timed(
+			value = "getAllBrands.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<List<Brand>> getAllBrands(@RequestHeader(value = "Authorization", required = false) String token){
 		
 		as.verify(token, 0);
@@ -60,6 +66,11 @@ public class BrandController {
 	}//end 
 	
 	@PostMapping
+	@Timed(
+			value = "createBrand.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<String> createBrand(@RequestBody Brand brand, @RequestHeader(value = "Authorization", required = false) String token) {
 		
 		as.verify(token, -1);
@@ -70,6 +81,12 @@ public class BrandController {
 	}
 	
 	@GetMapping("/{id}")
+	@Timed(
+			value = "getBrandById.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
+	@Counted(value = "getBrandById.call")
 	public ResponseEntity<Brand> getBrandById (@PathVariable("id") int id, @RequestHeader(value = "Authorization", required = false) String token){
 		
 		as.verify(token, 0);
@@ -77,6 +94,11 @@ public class BrandController {
 	}
 	
 	@PutMapping("/{id}")
+	@Timed(
+			value = "updateBrand.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<Brand> updateBrand(@RequestBody Brand brand, @PathVariable("id") int id, @RequestHeader(value = "Authorization", required = false) String token) {
 		
 		as.verify(token, -1);
@@ -87,6 +109,11 @@ public class BrandController {
 	}
 	
 	@DeleteMapping("/{id}")
+	@Timed(
+			value = "deleteById.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<String> deleteById(@PathVariable("id") int id, @RequestHeader(value = "Authorization", required = false) String token) {
 		
 		as.verify(token, -1);
@@ -97,6 +124,11 @@ public class BrandController {
 	}
 	
 	@GetMapping("/{id}/flavors")
+	@Timed(
+			value = "findFlavorsByBrand.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<List<Flavor>> findFlavorsByBrand(@PathVariable("id") Integer id, @RequestParam(required = false) String flavor, @RequestParam(required = false) Integer ounces, 
 			@RequestParam(required = false) Float price, @RequestHeader(value = "Authorization", required = false) String token){
 		
@@ -106,6 +138,11 @@ public class BrandController {
 	
 	
 	@PostMapping("/{id}/flavors")
+	@Timed(
+			value = "createFlavorWithBrandId.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<String> createFlavorWithBrandId(@RequestBody Flavor flavor, @PathVariable("id") int id, @RequestHeader(value = "Authorization", required = false) String token) {
 		
 		as.verify(token, -1);
@@ -117,6 +154,11 @@ public class BrandController {
 	}//end
 	
 	@GetMapping("/{brand}/flavors/{id}")
+	@Timed(
+			value = "getFlavorById.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<Flavor> getFlavorById(@PathVariable("id") int id, @RequestHeader(value = "Authorization", required = false) String token){
 		
 		as.verify(token, 0);
@@ -124,6 +166,11 @@ public class BrandController {
 	}//end
 	
 	@PutMapping("/{brand}/flavors/{id}")
+	@Timed(
+			value = "updateFlavor.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<Flavor> updateFlavor(@RequestBody Flavor flavor, @PathVariable("id") int id, @RequestHeader(value = "Authorization", required = false) String token){
 		
 		as.verify(token, -1);
@@ -134,6 +181,11 @@ public class BrandController {
 	}//end
 	
 	@DeleteMapping("/{brand}/flavors/{id}")
+	@Timed(
+			value = "deleteFlavor.request",
+			histogram = true,
+			percentiles = {0.95, 0.99}
+	)
 	public ResponseEntity<String> deleteFlavor(@PathVariable("id") int id, @RequestHeader(value = "Authorization", required = false) String token){
 		
 		as.verify(token, -1);

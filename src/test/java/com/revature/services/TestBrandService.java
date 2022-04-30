@@ -90,7 +90,7 @@ class TestBrandService {
 		assertEquals(bs.getBrandById(1), newBrand);
 		
 	}//end
-	
+
 	@Test
 	void getBrandByIdFailTest(){
 		

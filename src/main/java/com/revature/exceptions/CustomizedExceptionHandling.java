@@ -12,6 +12,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import io.micrometer.core.annotation.Counted;
+
 
 //@Controller advice allows you to handle exceptions across the whole application
 @ControllerAdvice
@@ -38,6 +40,7 @@ public class CustomizedExceptionHandling{
 	}//end
 	
 	@ExceptionHandler(BrandNotFoundException.class)
+	@Counted(value = "getBrandById.call.fail")
 	public ResponseEntity<Object> handleBrandNotFoundException(BrandNotFoundException exception) {
 		LOG.warn("Brand not found exception was handled.", exception);
 		return new ResponseEntity<>(new ExceptionResponse("Brand not found", LocalDateTime.now()), HttpStatus.NOT_FOUND);

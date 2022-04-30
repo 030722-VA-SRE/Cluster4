@@ -14,6 +14,10 @@ import com.revature.exceptions.BrandNotFoundException;
 import com.revature.models.Brand;
 import com.revature.repositories.BrandRepository;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
+
 //@Service is used with classes that provide some business functionalities
 //It is used to mark the class as a service provider
 @Service
@@ -70,7 +74,6 @@ public class BrandService {
 		LOG.debug("Attempting to retreive brand by id");
 		
 		Brand brand = br.findById(id).orElseThrow(() -> new BrandNotFoundException("No brand of id: " + id));
-		
 		LOG.debug("Done retrieving brand by id");
 		LOG.info("Looked up " + brand.getName());
 		return brand;
